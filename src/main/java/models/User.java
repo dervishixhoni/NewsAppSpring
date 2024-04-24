@@ -29,8 +29,6 @@ public class User {
     @NotEmpty
     private Boolean isVerified;
 
-    private String profilePicture;
-
     @NotEmpty
     private String VerificatonCode;
 
@@ -39,13 +37,9 @@ public class User {
     private Date createAt;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updateAt;
-    protected void defaultPic() {
-        this.profilePicture="defaultPicture.jpg";
-    }
     @PrePersist
     protected void onCreate(){
         this.createAt = new Date();
-        defaultPic();
     }
     @PreUpdate
     protected void onUpdate(){
@@ -83,6 +77,7 @@ public class User {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     public String getLastName() {
         return lastName;
     }
@@ -111,14 +106,6 @@ public class User {
 
     public void setIsVerified(Boolean value){
         this.isVerified=value;
-    }
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
     }
 
     public String getVerificatonCode() {

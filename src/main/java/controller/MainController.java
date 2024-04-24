@@ -2,6 +2,9 @@ package controller;
 
 import jakarta.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import models.Article;
+import models.Interest;
 import models.LoginUser;
 import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import services.*;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 import javax.mail.Authenticator;
@@ -74,120 +81,217 @@ public class MainController {
         return "verify";
     }
 
+    @PostMapping("/activateaccount")
+    public String activateAccount(@ModelAttribute("user") User POSTuser, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        if (user.getIsVerified()) {
+            return "redirect:/getstarted";
+        }
+        if (POSTuser.getVerificatonCode().equals(user.getVerificatonCode())) {
+            user.setIsVerified(true);
+            userService.updateUser(user);
+            return "redirect:/getstarted";
+        }
+        return "redirect:/verifyemail";
+    }
+
+    @GetMapping("/resendcode")
+    public String resendCode(HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        if (user.getIsVerified()) {
+            return "redirect:/getstarted";
+        }
+        user.setVerificatonCode(userService.generateCode());
+        userService.updateUser(user);
+        return "redirect:/verifyemail";
+    }
+
+
+
     @GetMapping("/home")
     public String dashboard(Model model, HttpSession session) {
         if (session.getAttribute("userId") == null) {
             return "redirect:/";
         }
         Long userId = (Long) session.getAttribute("userId");
+        if (!userService.findUserId(userId).getIsVerified()) {
+            return "redirect:/verifyemail";
+        }
+        ArrayList interests = new ArrayList(interestService.getByUser(userService.findUserId(userId)));
+        String word = "";
+        for (int i = 0; i < interests.size()-1; i++) {
+            word += interests.get(i)+"OR+";
+        }
+        word += interests.get(interests.size()-1);
+        String url = "https://newsapi.org/v2/everything?q="+word+"&apiKey="+env.API_KEY;
+        String json = IOUtils.toString(url.getBytes(), "UTF-8");
+        JSONObject object = new JSONObject(new JSONTokener(json));
+        model.addAttribute("articles", object.getJSONArray("articles"));
         model.addAttribute("user", userService.findUserId(userId));
-        model.addAttribute("articles", articleService.getArticles());
+        model.addAttribute("interests", interests);
+        model.addAttribute("savedArticles", articleService.getByUser(userService.findUserId(userId)));
         return "dashboard";
     }
-
-
-//
-//    @GetMapping("/listing/new")
-//    public String createHunter(@ModelAttribute("newHunter") Hunter newHunter, HttpSession session, Model model) {
-//        if (session.getAttribute("userId") == null) {
-//            return "redirect:/";
-//        }
-//        return "create";
-//    }
-//
-//    @PostMapping("/listing/new")
-//    public String newHunter(@Valid @ModelAttribute("newHunter") Hunter newHunter, BindingResult result,
-//                            HttpSession session, Model model) {
-//        if (result.hasErrors()) {
-//            return "create";
-//        }
-//        Date date = new Date();
-//        Long idUser = (Long) session.getAttribute("userId");
-//        User userID = userService.findUserId(idUser);
-//        newHunter.setAdded(userID);
-//        newHunter.setListedOn(date);
-//        hunterServices.createHunter(newHunter);
-//        return "redirect:/home";
-//    }
-//
-//    @GetMapping("/listing/{id}")
-//    public String details(@PathVariable("id") Long id, @ModelAttribute("notes") Notes notes, Model model,
-//                          HttpSession session) {
-//        model.addAttribute("hunter", hunterServices.getByIdHunter(id));
-//        Long idUser = (Long) session.getAttribute("userId");
-//        User userID = userService.findUserId(idUser);
-//        model.addAttribute("user", userID);
-//        return "details";
-//    }
-//
-//    @PostMapping("/listing/notes{id}")
-//    public String addNotes(@PathVariable("id") Long id, @Valid @ModelAttribute("notes") Notes notes,
-//                           BindingResult result, HttpSession session, Model model) {
-//        Long idUser = (Long) session.getAttribute("userId");
-//        User userID = userService.findUserId(idUser);
-//        Hunter hunterId = hunterServices.getByIdHunter(id);
-//        if (result.hasErrors()) {
-//            model.addAttribute("hunter", hunterId);
-//            model.addAttribute("user", userID);
-//            return "details";
-//        }
-//        notes.setUserNote(userID);
-//        notes.setHunterNote(hunterId);
-//        userID.getMakeNotes().add(notes);
-//        notesServices.createNotes(notes);
-//        return "redirect:/listing/{id}";
-//
-//    }
-//
-//    @GetMapping("/listing/{id}/edit")
-//    public String edit(@PathVariable("id") Long id, @ModelAttribute("newHunter") Hunter newHunter, Model model,
-//                       HttpSession session) {
-//        if (session.getAttribute("userId") == null) {
-//            return "redirect:/";
-//        }
-//        Hunter editHunter = hunterServices.getByIdHunter(id);
-//        model.addAttribute("newHunter", editHunter);
-//        return "edit";
-//    }
-//
-//    @PutMapping("/listing/{id}/edit")
-//    public String editHunter(@PathVariable("id") Long id, @Valid @ModelAttribute("newHunter") Hunter newHunter,
-//                             BindingResult result, HttpSession session, Model model) throws ParseException {
-//        Long idUser = (Long) session.getAttribute("userId");
-//        User userID = userService.findUserId(idUser);
-//        if (result.hasErrors()) {
-//            return "edit";
-//        }
-//        newHunter.setAdded(userID);
-//        hunterServices.updateHunter(newHunter);
-//        return "redirect:/home";
-//    }
-//
-//    @GetMapping("/notes/{id}")
-//    public String notes(@PathVariable("id") Long id, HttpSession session, Model model) {
-//        Long idUser = (Long) session.getAttribute("userId");
-//        User userID = userService.findUserId(idUser);
-//        Hunter hunter = hunterServices.getByIdHunter(id);
-//        model.addAttribute("user", userID);
-//        model.addAttribute("notes", notesServices.getByHunter(hunter));
-//        model.addAttribute("idNotes", notesServices.getNotesById(id));
-//        return "notes";
-//    }
-//
-//    @GetMapping("/listing/delete/{id}")
-//    public String deleteListing(@PathVariable("id") Long id, HttpSession session) {
-//        if (session.getAttribute("userId") == null) {
-//            return "redirect:/";
-//        }
-//        Hunter ht = hunterServices.getByIdHunter(id);
-//        hunterServices.deleteHunterById(ht);
-//        return "redirect:/home";
-//    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+
+    @GetMapping("/getstarted")
+    public String getStarted(HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        if (!user.getIsVerified()) {
+            return "redirect:/verifyemail";
+        }
+        if (interestService.getByUser(user).size() > 0){
+            return "redirect:/home";
+        }
+        model.addAttribute("user", user);
+        return "getstarted";
+    }
+
+    @GetMapping("/profile/{id}")
+    public String profile(@PathVariable("id") Long id, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        if (id != (Long) session.getAttribute("userId")) {
+            return "redirect:/logout";
+        }
+        model.addAttribute("user", userService.findUserId(id));
+        model.addAttribute("interests", interestService.getByUser(userService.findUserId(id)));
+        model.addAttribute("articles", articleService.getByUser(userService.findUserId(id)));
+        return "profile";
+    }
+
+    @PostMapping("/editprofile")
+    public String editProfile(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        if (result.hasErrors()) {
+            return "redirect:/profile/"+user.getId();
+        }
+        User editUser = userService.findUserId(user.getId());
+        editUser.setFirstName(user.getFirstName());
+        editUser.setLastName(user.getLastName());
+        editUser.setEmail(user.getEmail());
+        userService.updateUser(editUser);
+        return "redirect:/profile/"+user.getId();
+    }
+
+    @PostMapping("/editpassword")
+    public String editPassword(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        if (result.hasErrors()) {
+            return "redirect:/profile/"+user.getId();
+        }
+        User editUser = userService.findUserId(user.getId());
+        editUser.setPassword(user.getPassword());
+        userService.updateUser(editUser);
+        return "redirect:/profile/"+user.getId();
+    }
+
+    @PostMapping("/saveArticle")
+    public String saveArticle(@ModelAttribute("article") Article article, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        article.setAddedArticle(user);
+        articleService.createArticle(article);
+        return "redirect:/home";
+    }
+
+    @PostMapping("/deleteArticle")
+    public String deleteArticle(@ModelAttribute("article") Article article, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        Article deleteArticle = articleService.getArticleById(article.getId());
+        if (deleteArticle.getAddedArticle().getId() != user.getId()) {
+            return "redirect:/home";
+        }
+        articleService.deletearticle(deleteArticle);
+        return "redirect:/home";
+    }
+
+    @PostMapping("/editArticle")
+    public String editArticle(@ModelAttribute("article") Article article, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        Article editArticle = articleService.getArticleById(article.getId());
+        if (editArticle.getAddedArticle().getId() != user.getId()) {
+            return "redirect:/profile/"+user.getId();
+        }
+        model.addAttribute("article", editArticle);
+        return "redirect:/profile/"+user.getId();
+    }
+
+    @PostMapping("/addInterest")
+    public String addInterest(@ModelAttribute("interest") Interest interest, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        interest.setAddedInterest(user);
+        interestService.createInterest(interest);
+        return "redirect:/profile/"+user.getId();
+    }
+
+    @PostMapping("/deleteInterest")
+    public String deleteInterest(@ModelAttribute("interest") Interest interest, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        Interest deleteInterest = interestService.getInterestById(interest.getId());
+        if (deleteInterest.getAddedInterest().getId() != user.getId()) {
+            return "redirect:/profile/"+user.getId();
+        }
+        interestService.deleteinterest(deleteInterest);
+        return "redirect:/profile/"+user.getId();
+    }
+
+    @PostMapping("/setInterest")
+    public String setInterest(@ModelAttribute("interests") String interests, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        for (String word : interests.split(",")) {
+            Interest interest = new Interest();
+            interest.setKey_Word(word);
+            interest.setAddedInterest(user);
+            interestService.createInterest(interest);
+        }
+        return "redirect:/home";
     }
 
 }
