@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import repositories.UserRepo;
 
-import java.util.List;
-import java.util.Optional;
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -54,8 +56,11 @@ public class UserService {
         if (result.hasErrors()){
             return null;
         }
+        String code = generateCode();
+        sendEmail(createUser.getEmail(),code);
         String hashed = BCrypt.hashpw(createUser.getPassword(), BCrypt.gensalt());
         createUser.setPassword(hashed);
+        createUser.setVerificatonCode(code);
         return userRepo.save(createUser);
     }
 
@@ -71,5 +76,35 @@ public class UserService {
             return null;
         }
         return user;
+    }
+    public void sendEmail(String emailAddr, String verificationCode) {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
+        props.put("mail.smtp.port", "587"); //TLS Port
+        props.put("mail.smtp.auth", "true"); //enable authentication
+        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+
+        //create Authenticator object to pass in Session.getInstance argument
+        Authenticator auth = new Authenticator() {
+            //override the getPasswordAuthentication method
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(env.fromEmail, env.password);
+            }
+        };
+        Session session = Session.getInstance(props, auth);
+
+        EmailUtil.sendEmail(session, emailAddr,"Verify Your Email", "Use this verification code to activate your account: "+verificationCode);
+    }
+    public boolean isAllowedFile(String filename){
+        return Arrays.asList(env.allowedExtensions).contains(filename.substring(filename.lastIndexOf(".")));
+    }
+    public String generateCode(){
+        String string = "0123456789ABCDEFGHIJKELNOPKQSTUV";
+        String vCode = "";
+        Random rand = new Random();
+        for (int i=0;i<6;i++){
+            vCode+=string.charAt(rand.nextInt(string.length()));
+        }
+        return vCode;
     }
 }

@@ -15,7 +15,10 @@ public class User {
     private Long id;
     @NotEmpty()
     @Size(min = 3)
-    private String userName;
+    private String firstName;
+    @NotEmpty()
+    @Size(min = 3)
+    private String lastName;
     @NotEmpty()
     @Email
     private String email;
@@ -26,6 +29,8 @@ public class User {
     @NotEmpty
     private Boolean isVerified;
 
+    private String profilePicture;
+
     @NotEmpty
     private String VerificatonCode;
 
@@ -34,10 +39,13 @@ public class User {
     private Date createAt;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updateAt;
-
+    protected void defaultPic() {
+        this.profilePicture="defaultPicture.jpg";
+    }
     @PrePersist
     protected void onCreate(){
         this.createAt = new Date();
+        defaultPic();
     }
     @PreUpdate
     protected void onUpdate(){
@@ -50,9 +58,10 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String userName, String email, String password, Date createAt, Date updateAt) {
+    public User(Long id, String firstName, String lastName, String email, String password, Date createAt, Date updateAt) {
         this.id = id;
-        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.createAt = createAt;
@@ -67,12 +76,19 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -91,7 +107,27 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getIsVerified(Boolean )
+    public Boolean getIsVerified() {return isVerified;}
+
+    public void setIsVerified(Boolean value){
+        this.isVerified=value;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public String getVerificatonCode() {
+        return VerificatonCode;
+    }
+
+    public void setVerificatonCode(String VerificatonCode) {
+        this.VerificatonCode = VerificatonCode;
+    }
 
     public Date getCreateAt() {
         return createAt;

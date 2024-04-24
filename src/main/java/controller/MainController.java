@@ -1,8 +1,7 @@
 package controller;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
-import models.Interest;
+import javax.validation.Valid;
 import models.LoginUser;
 import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import services.ArticleService;
-import services.InterestService;
-import services.UserService;
+import services.*;
 
 import java.util.Arrays;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-
-import java.text.ParseException;
-import java.util.Date;
 
 @Controller
 public class MainController {
@@ -35,71 +29,63 @@ public class MainController {
     @Autowired
     private InterestService interestService;
 
-    public void sendEmail(String emailAddr, String verificationCode) {
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-        props.put("mail.smtp.port", "587"); //TLS Port
-        props.put("mail.smtp.auth", "true"); //enable authentication
-        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
-
-        //create Authenticator object to pass in Session.getInstance argument
-        Authenticator auth = new Authenticator() {
-            //override the getPasswordAuthentication method
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(env.fromEmail, env.password);
-            }
-        };
-        Session session = Session.getInstance(props, auth);
-
-        EmailUtil.sendEmail(session, emailAddr,"Verify Your Email", "Use this verification code to activate your account: "+verificationCode);
+    @GetMapping("/")
+    public String index(@ModelAttribute("user") User user, HttpSession session, Model model){
+        if (session.getAttribute("userId")!=null){
+            model.addAttribute("user",userService.findUserId((Long) session.getAttribute("userId")));
+            return "redirect:/dashboard";
+        }
+        return "index";
     }
 
-    public boolean isAllowedFile(String filename){
-        return Arrays.stream(env.allowedExtensions).anyMatch(filename.substring(filename.lastIndexOf(".")));
+    @PostMapping("/register")
+    public String registration(@Valid @ModelAttribute("user") User user, BindingResult result,
+                               HttpSession session, Model model) {
+        User createUsers = userService.register(user, result);
+        if (result.hasErrors()) {
+            return "redirect:/";
+        }
+        session.setAttribute("userId", createUsers.getId());
+        return "redirect:/verifyemail";
     }
 
-//    @GetMapping("/")
-//    public String index(@ModelAttribute("user") User user, @ModelAttribute("loginUser") LoginUser loginUser,
-//                        Model model) {
-//        model.addAttribute("user", new User());
-//        model.addAttribute("loginUser", new LoginUser());
-//        return "index";
-//    }
-//
-//    @PostMapping("/registration")
-//    public String registrantion(@Valid @ModelAttribute("user") User user, BindingResult result,
-//                                HttpSession session, Model model) {
-//        User createUsers = userService.register(user, result);
-//        if (result.hasErrors()) {
-//            model.addAttribute("loginUser", new LoginUser());
-//            return "index";
-//        }
-//        session.setAttribute("userId", createUsers.getId());
-//        return "redirect:/home";
-//    }
-//
-//    @PostMapping("/login")
-//    public String login(@Valid @ModelAttribute("loginUser") LoginUser loginUser, BindingResult result,
-//                        HttpSession session, Model model) {
-//        User loggedUser = userService.loggin(loginUser, result);
-//        if (result.hasErrors()) {
-//            model.addAttribute("user", new User());
-//            return "index";
-//        }
-//        session.setAttribute("userId", loggedUser.getId());
-//        return "redirect:/home";
-//    }
-//
-//    @GetMapping("/home")
-//    public String dashboard(Model model, HttpSession session) {
-//        if (session.getAttribute("userId") == null) {
-//            return "redirect:/";
-//        }
-//        Long userId = (Long) session.getAttribute("userId");
-//        model.addAttribute("user", userService.findUserId(userId));
-//        model.addAttribute("hunter", hunterServices.getAllHunter());
-//        return "dashboard";
-//    }
+    @PostMapping("/login")
+    public String login(@Valid @ModelAttribute("loginUser") LoginUser loginUser, BindingResult result,
+                        HttpSession session, Model model) {
+        User loggedUser = userService.loggin(loginUser, result);
+        if (result.hasErrors()) {
+            return "redirect:/";
+        }
+        session.setAttribute("userId", loggedUser.getId());
+        return "redirect:/home";
+    }
+
+    @GetMapping("/verifyemail")
+    public String verifyEmail(HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        User user = userService.findUserId(userId);
+        if (user.getIsVerified()) {
+            return "redirect:/home";
+        }
+        model.addAttribute("user", user);
+        return "verify";
+    }
+
+    @GetMapping("/home")
+    public String dashboard(Model model, HttpSession session) {
+        if (session.getAttribute("userId") == null) {
+            return "redirect:/";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+        model.addAttribute("user", userService.findUserId(userId));
+        model.addAttribute("articles", articleService.getArticles());
+        return "dashboard";
+    }
+
+
 //
 //    @GetMapping("/listing/new")
 //    public String createHunter(@ModelAttribute("newHunter") Hunter newHunter, HttpSession session, Model model) {
