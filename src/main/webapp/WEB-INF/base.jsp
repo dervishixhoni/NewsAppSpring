@@ -40,19 +40,22 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-            <img class="profile-pic" src="./UPLOADED_FOLDER/{{loggedUser['profile_pic']}}" alt="">
+            <img class="profile-pic" src="./UPLOADED_FOLDER/defaultprofilepic.jpg" alt="">
         </button>
         <div class="collapse navbar-collapse text-light" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-                {% if articles %}
-                <li class="nav-item text-center">
-                    <a class="nav-link text-light" href="/profile/{{session['user_id']}}">Profile</a>
-                </li>
-                {% else %}
-                <li class="nav-item text-center">
-                    <a class="nav-link text-light" href="/dashboard">Dashboard</a>
-                </li>
-                {% endif %}
+                <c:choose>
+                    <c:when test="${empty user}">
+                    <li class="nav-item text-center">
+                        <a class="nav-link text-light" href="/profile/${user.id}">Profile</a>
+                    </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="nav-item text-center">
+                            <a class="nav-link text-light" href="/dashboard">Dashboard</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
                 <li>
                     <hr class="dropdown-divider">
                 </li>

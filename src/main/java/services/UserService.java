@@ -1,4 +1,5 @@
 package services;
+
 import models.LoginUser;
 import models.User;
 import org.mindrot.jbcrypt.BCrypt;
@@ -50,8 +51,26 @@ public class UserService {
     //register
     public User register(User createUser , BindingResult result) {
         Optional<User> optionalUser = findbyEmail(createUser.getEmail());
+        if (createUser.getFirstName().isEmpty() || createUser.getLastName().isEmpty() || createUser.getEmail().isEmpty() || createUser.getPassword().isEmpty() || createUser.getPasswordConfirmation().isEmpty()){
+            result.rejectValue("firstName", "Match", "All fields must be filled!");
+        }
+        if (createUser.getPassword().length() < 8){
+            result.rejectValue("password", "Match", "Password must be at least 8 characters!");
+        }
+        if (createUser.getFirstName().length() < 2){
+            result.rejectValue("firstName", "Match", "First name must be at least 2 characters!");
+        }
+        if (createUser.getLastName().length() < 2){
+            result.rejectValue("lastName", "Match", "Last name must be at least 2 characters!");
+        }
+        if (createUser.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")){
+            result.rejectValue("email", "Match", "Email must be valid!");
+        }
         if (optionalUser.isPresent()){
             result.rejectValue("email", "Match", "Email already take!");
+        }
+        if (!createUser.getPassword().equals(createUser.getPasswordConfirmation())) {
+            result.rejectValue("passwordConfirmation", "Match", "Passwords must match!");
         }
         if (result.hasErrors()){
             return null;
@@ -77,6 +96,16 @@ public class UserService {
         }
         return user;
     }
+
+    public User verify(User user, User userId, BindingResult result){
+        if (!user.getVerificatonCode().equals(userId.getVerificatonCode())){
+            result.rejectValue("verificationCode", "Match", "Verification code must match!");
+            return null;
+        }
+        user.setIsVerified(true);
+        return userRepo.save(user);
+    }
+
     public void sendEmail(String emailAddr, String verificationCode) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host

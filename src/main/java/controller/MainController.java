@@ -1,28 +1,29 @@
 package controller;
 
 import jakarta.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import models.Article;
 import models.Interest;
 import models.LoginUser;
 import models.User;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import services.*;
-import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import services.ArticleService;
+import services.InterestService;
+import services.UserService;
+import services.env;
 
+import jakarta.validation.Valid;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Properties;
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
+import java.util.Objects;
 
 @Controller
 public class MainController {
@@ -82,21 +83,17 @@ public class MainController {
     }
 
     @PostMapping("/activateaccount")
-    public String activateAccount(@ModelAttribute("user") User POSTuser, HttpSession session, Model model) {
+    public String activateAccount(@ModelAttribute("user") User POSTuser, BindingResult result ,HttpSession session, Model model) {
         if (session.getAttribute("userId") == null) {
             return "redirect:/";
         }
         Long userId = (Long) session.getAttribute("userId");
-        User user = userService.findUserId(userId);
-        if (user.getIsVerified()) {
-            return "redirect:/getstarted";
+        userService.verify(POSTuser, userService.findUserId(userId), result);
+        if (result.hasErrors()) {
+            return "redirect:/verifyemail";
         }
-        if (POSTuser.getVerificatonCode().equals(user.getVerificatonCode())) {
-            user.setIsVerified(true);
-            userService.updateUser(user);
-            return "redirect:/getstarted";
-        }
-        return "redirect:/verifyemail";
+        return "redirect:/getstarted";
+
     }
 
     @GetMapping("/resendcode")
@@ -136,7 +133,7 @@ public class MainController {
         JSONObject object = new JSONObject(new JSONTokener(json));
         model.addAttribute("articles", object.getJSONArray("articles"));
         model.addAttribute("user", userService.findUserId(userId));
-        model.addAttribute("interests", interests);
+        model.addAttribute("keywords", interests);
         model.addAttribute("savedArticles", articleService.getByUser(userService.findUserId(userId)));
         return "dashboard";
     }
@@ -158,7 +155,7 @@ public class MainController {
         if (!user.getIsVerified()) {
             return "redirect:/verifyemail";
         }
-        if (interestService.getByUser(user).size() > 0){
+        if (!interestService.getByUser(user).isEmpty()){
             return "redirect:/home";
         }
         model.addAttribute("user", user);
@@ -170,7 +167,7 @@ public class MainController {
         if (session.getAttribute("userId") == null) {
             return "redirect:/";
         }
-        if (id != (Long) session.getAttribute("userId")) {
+        if (!Objects.equals(id, (Long) session.getAttribute("userId"))) {
             return "redirect:/logout";
         }
         model.addAttribute("user", userService.findUserId(id));
@@ -229,7 +226,7 @@ public class MainController {
         Long userId = (Long) session.getAttribute("userId");
         User user = userService.findUserId(userId);
         Article deleteArticle = articleService.getArticleById(article.getId());
-        if (deleteArticle.getAddedArticle().getId() != user.getId()) {
+        if (!Objects.equals(deleteArticle.getAddedArticle().getId(), user.getId())) {
             return "redirect:/home";
         }
         articleService.deletearticle(deleteArticle);
@@ -244,7 +241,7 @@ public class MainController {
         Long userId = (Long) session.getAttribute("userId");
         User user = userService.findUserId(userId);
         Article editArticle = articleService.getArticleById(article.getId());
-        if (editArticle.getAddedArticle().getId() != user.getId()) {
+        if (!Objects.equals(editArticle.getAddedArticle().getId(), user.getId())) {
             return "redirect:/profile/"+user.getId();
         }
         model.addAttribute("article", editArticle);
@@ -271,7 +268,7 @@ public class MainController {
         Long userId = (Long) session.getAttribute("userId");
         User user = userService.findUserId(userId);
         Interest deleteInterest = interestService.getInterestById(interest.getId());
-        if (deleteInterest.getAddedInterest().getId() != user.getId()) {
+        if (!Objects.equals(deleteInterest.getAddedInterest().getId(), user.getId())) {
             return "redirect:/profile/"+user.getId();
         }
         interestService.deleteinterest(deleteInterest);

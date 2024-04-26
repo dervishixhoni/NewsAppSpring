@@ -1,9 +1,11 @@
 package models;
+
 import org.springframework.format.annotation.DateTimeFormat;
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -26,38 +28,46 @@ public class User {
     @Size(min = 8)
     private String password;
 
+    @Transient
+    private String passwordConfirmation;
+
     @NotEmpty
     private Boolean isVerified;
 
     @NotEmpty
-    private String VerificatonCode;
+    private String verificatonCode;
 
     @Column(updatable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createAt;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updateAt;
+
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.createAt = new Date();
     }
+
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         this.updateAt = new Date();
     }
-    @OneToMany(mappedBy = "addedArticle" , fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "addedArticle", fetch = FetchType.LAZY)
     private List<Article> articles;
-    @OneToMany(mappedBy = "addedInterest" , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "addedInterest", fetch = FetchType.LAZY)
     private List<Interest> interests;
+
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String email, String password, Date createAt, Date updateAt) {
+    public User(Long id, String firstName, String lastName, String email, String password, String passwordConfirmation, Date createAt, Date updateAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.passwordConfirmation = passwordConfirmation;
         this.createAt = createAt;
         this.updateAt = updateAt;
     }
@@ -102,18 +112,28 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getIsVerified() {return isVerified;}
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
 
-    public void setIsVerified(Boolean value){
-        this.isVerified=value;
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public Boolean getIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(Boolean value) {
+        this.isVerified = value;
     }
 
     public String getVerificatonCode() {
-        return VerificatonCode;
+        return verificatonCode;
     }
 
     public void setVerificatonCode(String VerificatonCode) {
-        this.VerificatonCode = VerificatonCode;
+        this.verificatonCode = VerificatonCode;
     }
 
     public Date getCreateAt() {
