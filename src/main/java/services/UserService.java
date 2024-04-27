@@ -129,11 +129,11 @@ public class UserService {
     }
     public String generateCode(){
         String string = "0123456789ABCDEFGHIJKELNOPKQSTUV";
-        String vCode = "";
+        StringBuilder vCode = new StringBuilder("");
         Random rand = new Random();
         for (int i=0;i<6;i++){
-            vCode+=string.charAt(rand.nextInt(string.length()));
+            vCode.append(string.charAt(rand.nextInt(string.length())));
         }
-        return vCode;
+        return vCode.toString();
     }
 }

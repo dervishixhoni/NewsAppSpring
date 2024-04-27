@@ -17,7 +17,8 @@
 </head>
 
 <body class="vh-100"
-      style="background-image: url('./UPLOADED_FOLDER/newspaper-aesthetic-background-6zy4tj738voyh9fx.jpg');">
+      style="background-image: url('./UPLOADED_FOLDER/newspaper-aesthetic-background-6zy4tj738voyh9fx.jpg');"
+>
 <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-lg-12 col-xl-11">
@@ -42,68 +43,68 @@
                              aria-labelledby="nav-signup-tab">
                             <div class="row justify-content-center">
                                 <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1 pt-3">
-                                    <%--@elvariable id="user" type="com"--%>
-                                    <form:form action="/register" method="post" class="mx-1 mx-md-4"
-                                               id="formReg" modelAttribute="user">
+<%--                                    &lt;%&ndash;@elvariable id="user" type="com"&ndash;%&gt;--%>
+<%--                                    <form:form action="/register" method="post" class="mx-1 mx-md-4"--%>
+<%--                                               id="formReg" modelAttribute="user">--%>
 
-                                    <div class="d-flex flex-row align-items-center mb-4">
-                                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                        <div class="form-outline flex-fill mb-0 form-floating">
-                                            <form:input type="text" id="form3Example1c" class="form-control"
-                                                        placeholder="name@example.com" path="firstName"></form:input>
-                                            <form:label class="form-label" for="form3Example1c"
-                                                        path="firstName">First Name</form:label>
-                                            <form:errors path="firstName" cssClass="text-danger"></form:errors>
-                                        </div>
-                                    </div>
+<%--                                    <div class="d-flex flex-row align-items-center mb-4">--%>
+<%--                                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>--%>
+<%--                                        <div class="form-outline flex-fill mb-0 form-floating">--%>
+<%--                                            <form:input type="text" id="form3Example1c" class="form-control"--%>
+<%--                                                        placeholder="name@example.com" path="firstName"></form:input>--%>
+<%--                                            <form:label class="form-label" for="form3Example1c"--%>
+<%--                                                        path="firstName">First Name</form:label>--%>
+<%--                                            <form:errors path="firstName" cssClass="text-danger"></form:errors>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
 
-                                    <div class="d-flex flex-row align-items-center mb-4">
-                                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                                        <div class="form-outline flex-fill mb-0 form-floating">
-                                            <form:input type="text" id="form3Example1c" class="form-control"
-                                                        placeholder="name@example.com" path="lastName"></form:input>
-                                            <form:label path="lastName" class="form-label"
-                                                        for="form3Example1c">Last Name</form:label>
-                                            <form:errors path="lastName" cssClass="text-danger"></form:errors>
-                                        </div>
-                                    </div>
+<%--                                    <div class="d-flex flex-row align-items-center mb-4">--%>
+<%--                                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>--%>
+<%--                                        <div class="form-outline flex-fill mb-0 form-floating">--%>
+<%--                                            <form:input type="text" id="form3Example1c" class="form-control"--%>
+<%--                                                        placeholder="name@example.com" path="lastName"></form:input>--%>
+<%--                                            <form:label path="lastName" class="form-label"--%>
+<%--                                                        for="form3Example1c">Last Name</form:label>--%>
+<%--                                            <form:errors path="lastName" cssClass="text-danger"></form:errors>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
 
-                                    <div class="d-flex flex-row align-items-center mb-4">
-                                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                        <div class="form-outline flex-fill mb-0 form-floating">
-                                            <form:input type="email" class="form-control"
-                                                        placeholder="name@example.com" path="email"></form:input>
-                                            <form:label path="email" class="form-label"
-                                                        for="form3Example3c">Email</form:label>
-                                            <form:errors path="email" cssClass="text-danger"></form:errors>
-                                        </div>
-                                    </div>
+<%--                                    <div class="d-flex flex-row align-items-center mb-4">--%>
+<%--                                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>--%>
+<%--                                        <div class="form-outline flex-fill mb-0 form-floating">--%>
+<%--                                            <form:input type="email" class="form-control"--%>
+<%--                                                        placeholder="name@example.com" path="email"></form:input>--%>
+<%--                                            <form:label path="email" class="form-label"--%>
+<%--                                                        for="form3Example3c">Email</form:label>--%>
+<%--                                            <form:errors path="email" cssClass="text-danger"></form:errors>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
 
-                                    <div class="d-flex flex-row align-items-center mb-4">
-                                        <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                                        <div class="form-outline flex-fill mb-0 form-floating">
-                                            <form:input type="password" id="form3Example4c" class="form-control"
-                                                        path="password"></form:input>
-                                            <form:label path="password" class="form-label"
-                                                        for="form3Example4c">Password</form:label>
-                                            <form:errors path="password" cssClass="text-danger"></form:errors>
-                                        </div>
-                                    </div>
+<%--                                    <div class="d-flex flex-row align-items-center mb-4">--%>
+<%--                                        <i class="fas fa-lock fa-lg me-3 fa-fw"></i>--%>
+<%--                                        <div class="form-outline flex-fill mb-0 form-floating">--%>
+<%--                                            <form:input type="password" id="form3Example4c" class="form-control"--%>
+<%--                                                        path="password"></form:input>--%>
+<%--                                            <form:label path="password" class="form-label"--%>
+<%--                                                        for="form3Example4c">Password</form:label>--%>
+<%--                                            <form:errors path="password" cssClass="text-danger"></form:errors>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
 
-                                    <div class="d-flex flex-row align-items-center mb-4">
-                                        <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                                        <div class="form-outline flex-fill mb-0 form-floating">
-                                            <form:input path="passwordConfirmation" type="password" id="form3Example4cd" class="form-control"></form:input>
-                                            <form:label path="passwordConfirmation" class="form-label" for="form3Example4cd">Confirm password</form:label>
-                                            <form:errors path="passwordConfirmation" cssClass="text-danger"></form:errors>
-                                        </div>
-                                    </div>
+<%--                                    <div class="d-flex flex-row align-items-center mb-4">--%>
+<%--                                        <i class="fas fa-key fa-lg me-3 fa-fw"></i>--%>
+<%--                                        <div class="form-outline flex-fill mb-0 form-floating">--%>
+<%--                                            <form:input path="passwordConfirmation" type="password" id="form3Example4cd" class="form-control"></form:input>--%>
+<%--                                            <form:label path="passwordConfirmation" class="form-label" for="form3Example4cd">Confirm password</form:label>--%>
+<%--                                            <form:errors path="passwordConfirmation" cssClass="text-danger"></form:errors>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
 
 
-                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                        <button type="submit" class="btn btn-primary btn-lg">Register</button>
-                                    </div>
-                                    </form:form>
+<%--                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">--%>
+<%--                                        <button type="submit" class="btn btn-primary btn-lg">Register</button>--%>
+<%--                                    </div>--%>
+<%--                                    </form:form>--%>
                                 </div>
                                 <div
                                         class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
@@ -125,7 +126,7 @@
                                             <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0 form-floating">
                                                 <form:input type="email" id="form3Example3c" class="form-control"
-                                                       path="email" placeholder="name@example.com" >
+                                                            path="email" placeholder="name@example.com" ></form:input>
                                                 <form:label path="email" class="form-label" for="form3Example3c">Email</form:label>
                                                 <form:errors path="email" cssClass="text-danger"></form:errors>
                                             </div>

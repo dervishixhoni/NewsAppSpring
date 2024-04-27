@@ -38,11 +38,13 @@ public class MainController {
     private InterestService interestService;
 
     @GetMapping("/")
-    public String index(@ModelAttribute("user") User user, HttpSession session, Model model){
+    public String index(@ModelAttribute("user") User user, @ModelAttribute("loginUser")LoginUser loginUser, HttpSession session, Model model){
         if (session.getAttribute("userId")!=null){
             model.addAttribute("user",userService.findUserId((Long) session.getAttribute("userId")));
             return "redirect:/dashboard";
         }
+        model.addAttribute("user", new User());
+        model.addAttribute("loginUser", new LoginUser());
         return "index";
     }
 
@@ -123,11 +125,12 @@ public class MainController {
             return "redirect:/verifyemail";
         }
         ArrayList interests = new ArrayList(interestService.getByUser(userService.findUserId(userId)));
-        String word = "";
+        StringBuilder word = new StringBuilder("");
         for (int i = 0; i < interests.size()-1; i++) {
-            word += interests.get(i)+"OR+";
+            word.append(interests.get(i));
+            word.append("+OR+");
         }
-        word += interests.get(interests.size()-1);
+        word.append(interests.get(interests.size()-1));
         String url = "https://newsapi.org/v2/everything?q="+word+"&apiKey="+env.API_KEY;
         String json = IOUtils.toString(url.getBytes(), "UTF-8");
         JSONObject object = new JSONObject(new JSONTokener(json));
