@@ -1,29 +1,28 @@
 package com.xhoni.NewsApp.controllers;
 
 import com.xhoni.NewsApp.models.*;
-import jakarta.servlet.http.HttpSession;
-import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 import com.xhoni.NewsApp.services.ArticleService;
 import com.xhoni.NewsApp.services.InterestService;
 import com.xhoni.NewsApp.services.UserService;
 import com.xhoni.NewsApp.services.env;
-
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -41,9 +40,9 @@ public class MainController {
     private InterestService interestService;
 
     @GetMapping("/")
-    public String index(@ModelAttribute("user") User user, @ModelAttribute("loginUser")LoginUser loginUser, HttpSession session, Model model){
-        if (session.getAttribute("userId")!=null){
-            model.addAttribute("user",userService.findUserId((Long) session.getAttribute("userId")));
+    public String index(@ModelAttribute("user") User user, @ModelAttribute("loginUser") LoginUser loginUser, HttpSession session, Model model) {
+        if (session.getAttribute("userId") != null) {
+            model.addAttribute("user", userService.findUserId((Long) session.getAttribute("userId")));
             return "redirect:/home";
         }
         model.addAttribute("user", new User());
@@ -91,7 +90,7 @@ public class MainController {
     }
 
     @PostMapping("/activateaccount")
-    public String activateAccount(@ModelAttribute("user") User POSTuser, BindingResult result ,HttpSession session, Model model) {
+    public String activateAccount(@ModelAttribute("user") User POSTuser, BindingResult result, HttpSession session, Model model) {
         if (session.getAttribute("userId") == null) {
             return "redirect:/";
         }
@@ -120,7 +119,6 @@ public class MainController {
     }
 
 
-
     @GetMapping("/home")
     public String dashboard(Model model, HttpSession session) throws IOException {
         if (session.getAttribute("userId") == null) {
@@ -131,13 +129,13 @@ public class MainController {
             return "redirect:/verifyemail";
         }
         ArrayList<Interest> interests = new ArrayList<>(interestService.getByUser(userService.findUserId(userId)));
-        StringBuilder word = new StringBuilder("");
-        for (int i = 0; i < interests.size()-1; i++) {
+        StringBuilder word = new StringBuilder();
+        for (int i = 0; i < interests.size() - 1; i++) {
             word.append(interests.get(i).getKey_Word());
             word.append("+OR+");
         }
-        word.append(interests.get(interests.size()-1).getKey_Word());
-        String url = "https://newsapi.org/v2/everything?q="+word+"&apiKey="+env.API_KEY;
+        word.append(interests.get(interests.size() - 1).getKey_Word());
+        String url = "https://newsapi.org/v2/everything?q=" + word + "&apiKey=" + env.API_KEY;
 //        String json = IOUtils.toString(url.getBytes(), "UTF-8");
 //        JSONObject object = new JSONObject(new JSONTokener(json));
         URL urlObj = new URL(url);
@@ -185,11 +183,11 @@ public class MainController {
         if (!user.getIsVerified()) {
             return "redirect:/verifyemail";
         }
-        if (!interestService.getByUser(user).isEmpty()){
+        if (!interestService.getByUser(user).isEmpty()) {
             return "redirect:/home";
         }
         model.addAttribute("user", user);
-        model.addAttribute("interests",new InterestString());
+        model.addAttribute("interests", new InterestString());
         return "getstarted";
     }
 
@@ -198,43 +196,44 @@ public class MainController {
         if (session.getAttribute("userId") == null) {
             return "redirect:/";
         }
-        if (!Objects.equals(id, (Long) session.getAttribute("userId"))) {
+        if (!Objects.equals(id, session.getAttribute("userId"))) {
             return "redirect:/logout";
         }
+        model.addAttribute("interest", new Interest());
         model.addAttribute("user", userService.findUserId(id));
         model.addAttribute("interests", interestService.getByUser(userService.findUserId(id)));
         model.addAttribute("articles", articleService.getByUser(userService.findUserId(id)));
+        model.addAttribute("passwordReset", new PasswordReset());
         return "profile";
     }
 
-    @PostMapping("/editprofile")
+    @PostMapping("/editProfile")
     public String editProfile(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session, Model model) {
         if (session.getAttribute("userId") == null) {
             return "redirect:/";
         }
-        if (result.hasErrors()) {
-            return "redirect:/profile/"+user.getId();
-        }
-        User editUser = userService.findUserId(user.getId());
+        User editUser = userService.findUserId((Long) session.getAttribute("userId"));
+        System.out.println(editUser.getId());
+        System.out.println(user.getId());
         editUser.setFirstName(user.getFirstName());
         editUser.setLastName(user.getLastName());
         editUser.setEmail(user.getEmail());
         userService.updateUser(editUser);
-        return "redirect:/profile/"+user.getId();
+        return "redirect:/profile/" + session.getAttribute("userId");
     }
 
-    @PostMapping("/editpassword")
-    public String editPassword(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session, Model model) {
+    @PostMapping("/editPassword")
+    public String editPassword(@Valid @ModelAttribute("passwordReset") PasswordReset passwordReset, BindingResult result, HttpSession session, Model model) {
         if (session.getAttribute("userId") == null) {
             return "redirect:/";
         }
         if (result.hasErrors()) {
-            return "redirect:/profile/"+user.getId();
+            return "redirect:/profile/" + session.getAttribute("userId");
         }
-        User editUser = userService.findUserId(user.getId());
-        editUser.setPassword(user.getPassword());
+        User editUser = userService.findUserId((Long) session.getAttribute("userId"));
+        editUser.setPassword(passwordReset.getNewPassword());
         userService.updateUser(editUser);
-        return "redirect:/profile/"+user.getId();
+        return "redirect:/profile/" + session.getAttribute("userId");
     }
 
     @PostMapping("/saveArticle")
@@ -273,10 +272,10 @@ public class MainController {
         User user = userService.findUserId(userId);
         Article editArticle = articleService.getArticleById(article.getId());
         if (!Objects.equals(editArticle.getAddedArticle().getId(), user.getId())) {
-            return "redirect:/profile/"+user.getId();
+            return "redirect:/profile/" + user.getId();
         }
         model.addAttribute("article", editArticle);
-        return "redirect:/profile/"+user.getId();
+        return "redirect:/profile/" + user.getId();
     }
 
     @PostMapping("/addInterest")
@@ -288,22 +287,16 @@ public class MainController {
         User user = userService.findUserId(userId);
         interest.setAddedInterest(user);
         interestService.createInterest(interest);
-        return "redirect:/profile/"+user.getId();
+        return "redirect:/profile/" + user.getId();
     }
 
-    @PostMapping("/deleteInterest")
+    @PostMapping(value = "/deleteInterest")
     public String deleteInterest(@ModelAttribute("interest") Interest interest, HttpSession session, Model model) {
-        if (session.getAttribute("userId") == null) {
-            return "redirect:/";
-        }
         Long userId = (Long) session.getAttribute("userId");
         User user = userService.findUserId(userId);
         Interest deleteInterest = interestService.getInterestById(interest.getId());
-        if (!Objects.equals(deleteInterest.getAddedInterest().getId(), user.getId())) {
-            return "redirect:/profile/"+user.getId();
-        }
         interestService.deleteinterest(deleteInterest);
-        return "redirect:/profile/"+user.getId();
+        return "redirect:/profile/" + user.getId();
     }
 
     @PostMapping("/setInterests")
@@ -321,5 +314,4 @@ public class MainController {
         }
         return "redirect:/home";
     }
-
 }
