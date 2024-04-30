@@ -7,7 +7,7 @@
     <title>News App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/97eca8769e.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../resources/static/css/other.css" th:href="@{/css/other.css}">
@@ -18,14 +18,15 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
             <svg xmlns="http://www.w3.org/2000/svg" height="2em"
-                 viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                 viewBox="0 0 512 512">
+                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                 <style>
                     svg {
                         fill: #f8f9fa
                     }
                 </style>
                 <path
-                        d="M168 80c-13.3 0-24 10.7-24 24V408c0 8.4-1.4 16.5-4.1 24H440c13.3 0 24-10.7 24-24V104c0-13.3-10.7-24-24-24H168zM72 480c-39.8 0-72-32.2-72-72V112C0 98.7 10.7 88 24 88s24 10.7 24 24V408c0 13.3 10.7 24 24 24s24-10.7 24-24V104c0-39.8 32.2-72 72-72H440c39.8 0 72 32.2 72 72V408c0 39.8-32.2 72-72 72H72zM176 136c0-13.3 10.7-24 24-24h96c13.3 0 24 10.7 24 24v80c0 13.3-10.7 24-24 24H200c-13.3 0-24-10.7-24-24V136zm200-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zM200 272H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24z" />
+                        d="M168 80c-13.3 0-24 10.7-24 24V408c0 8.4-1.4 16.5-4.1 24H440c13.3 0 24-10.7 24-24V104c0-13.3-10.7-24-24-24H168zM72 480c-39.8 0-72-32.2-72-72V112C0 98.7 10.7 88 24 88s24 10.7 24 24V408c0 13.3 10.7 24 24 24s24-10.7 24-24V104c0-39.8 32.2-72 72-72H440c39.8 0 72 32.2 72 72V408c0 39.8-32.2 72-72 72H72zM176 136c0-13.3 10.7-24 24-24h96c13.3 0 24 10.7 24 24v80c0 13.3-10.7 24-24 24H200c-13.3 0-24-10.7-24-24V136zm200-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zM200 272H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/>
             </svg>
         </a>
         <h1 class="text-center text-light">
@@ -34,14 +35,15 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-            <img class="profile-pic" src="../../resources/static/images/defaultprofilepic.jpg" th:src="@{/images/defaultprofilepic.jpg}" alt="">
+            <img class="profile-pic" src="../../resources/static/images/defaultprofilepic.jpg"
+                 th:src="@{/images/defaultprofilepic.jpg}" alt="">
         </button>
         <div class="collapse navbar-collapse text-light" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-                <li class="nav-item text-center" th:if="${user == null}">
-                    <a class="nav-link text-light" th:href="@{/profile/${user.id}}">Profile</a>
+                <li class="nav-item text-center" th:if="${user.getId() != null}">
+                    <a class="nav-link text-light" th:href="@{'/profile/'+${user.id}}">Profile</a>
                 </li>
-                <li class="nav-item text-center" th:unless="${user == null}">
+                <li class="nav-item text-center" th:unless="${user.getId() != null}">
                     <a class="nav-link text-light" th:href="@{/dashboard}">Dashboard</a>
                 </li>
                 <li>
@@ -67,9 +69,11 @@
                 <p class="card-text" th:text="${user.email}"></p>
                 <div>
                     <button onclick="popupwindows('show-edit-profile','editprofile','cancel-edit-profile')"
-                            id="show-edit-profile" class="btn btn-outline-primary">Edit Profile</button>
+                            id="show-edit-profile" class="btn btn-outline-primary">Edit Profile
+                    </button>
                     <button onclick="popupwindows('show-change-pass','changepass','cancel-change-pass')"
-                            id="show-change-pass" class="btn btn-outline-warning">Change Password</button>
+                            id="show-change-pass" class="btn btn-outline-warning">Change Password
+                    </button>
                 </div>
             </div>
         </div>
@@ -83,7 +87,7 @@
     </div>
     <form th:action="@{/addInterest}" th:object="${interest}" method="post" class="d-flex w-75 m-auto my-3">
         <div class="form-outline border border-2 border-primary py-2 rounded-pill">
-            <input type="text" th:field="*{key_Word}" class="form-control rounded-pill" />
+            <input type="text" th:field="*{key_Word}" class="form-control rounded-pill"/>
         </div>
         <button type="submit" class="btn btn-primary rounded-pill mx-2">
             Add
@@ -91,12 +95,14 @@
     </form>
     <div class="card-body row row-cols-3 g-2">
         <div th:each="topic : ${interests}">
-            <button class="rounded-pill btn-outline-primary" th:value="${topic.id}" data-bs-toggle="button" th:text="${topic.key_Word}"></button>
+            <button class="rounded-pill btn-outline-primary" th:value="${topic.id}" data-bs-toggle="button"
+                    th:text="${topic.key_Word}"></button>
         </div>
     </div>
-    <form id="deleteForm" th:action="@{/deleteInterest}" th:method="post" th:object="${interest}" class="card-footer text-body-secondary">
-        <input type="hidden" id="deletingTopic" th:field="*{id}" >
-        <button type="submit" class="btn btn-danger" >Delete</button>
+    <form id="deleteForm" th:action="@{/deleteInterest}" th:method="post" th:object="${interest}"
+          class="card-footer text-body-secondary">
+        <input type="hidden" id="deletingTopic" th:field="*{id}">
+        <button type="submit" class="btn btn-danger">Delete</button>
     </form>
 </div>
 <div class="card m-auto shadow-6-strong my-3" style="max-width: 540px;">
@@ -107,17 +113,16 @@
     </div>
     <ul class="list-group list-group-flush">
         <div th:each="article : ${articles}">
-        <li class="list-group-item text-center">
-            <p th:text="${article.gettitle()}"></p>
-        </li>
-        <li class="list-group-item d-flex justify-content-between">
-            <a target="_blank" class="btn btn-outline-primary" th:href="${article.url}">Read Full Article</a>
-            <button onclick="popupwindows('show-edit-article','editarticle','cancel-edit-article','${article.id}','${article.title}')" id="show-edit-article" class="btn btn-outline-warning" type="button">Edit</button>
-            <form th:action="@{/unsaveArticle}" method="post">
-                <input type="hidden" name="id" th:value="${article.id}">
-                <button class="btn btn-outline-danger" type="submit">Delete</button>
+            <form id="article" th:action="@{/unsaveArticle}" th:object="${article}" th:method="post">
+                <li class="list-group-item text-center">
+                    <p id="input" th:text="${article.gettitle()}"></p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <a target="_blank" class="btn btn-outline-primary" th:href="${article.url}">Read Full Article</a>
+                    <input type="hidden" id="id" name="id" th:value="${article.id}">
+                    <button class="btn btn-outline-danger" type="submit">Delete</button>
+                </li>
             </form>
-        </li>
         </div>
     </ul>
 </div>
@@ -133,7 +138,7 @@
             <div class="d-flex flex-row align-items-center mb-4 border border-3 border-primary p-2 rounded-3">
                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                 <div class="form-outline flex-fill mb-0 form-floating">
-                    <input type="text" class="form-control" th:field="*{firstName}" required />
+                    <input type="text" class="form-control" th:field="*{firstName}" required/>
                     <label class="form-label">First Name</label>
                 </div>
             </div>
@@ -141,7 +146,7 @@
             <div class="d-flex flex-row align-items-center mb-4 border border-3 border-primary p-2 rounded-3">
                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                 <div class="form-outline flex-fill mb-0 form-floating">
-                    <input type="text" class="form-control" th:field="*{lastName}" required />
+                    <input type="text" class="form-control" th:field="*{lastName}" required/>
                     <label class="form-label">Last Name</label>
                 </div>
             </div>
@@ -149,7 +154,7 @@
             <div class="d-flex flex-row align-items-center mb-4 border border-3 border-primary p-2 rounded-3">
                 <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                 <div class="form-outline flex-fill mb-0 form-floating">
-                    <input type="email" class="form-control" th:field="*{email}" required />
+                    <input type="email" class="form-control" th:field="*{email}" required/>
                     <label class="form-label">Email</label>
                 </div>
             </div>
@@ -171,7 +176,7 @@
             <div class="d-flex flex-row align-items-center mb-4 border border-3 border-primary p-2 rounded-3">
                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                 <div class="form-outline flex-fill mb-0 form-floating">
-                    <input type="password" class="form-control" th:field="*{oldPassword}" required />
+                    <input type="password" class="form-control" th:field="*{oldPassword}" required/>
                     <label class="form-label">Old Password</label>
                 </div>
             </div>
@@ -179,7 +184,7 @@
             <div class="d-flex flex-row align-items-center mb-4 border border-3 border-primary p-2 rounded-3">
                 <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                 <div class="form-outline flex-fill mb-0 form-floating">
-                    <input type="password" class="form-control" th:field="*{newPassword}" required />
+                    <input type="password" class="form-control" th:field="*{newPassword}" required/>
                     <label class="form-label">New Password</label>
                 </div>
             </div>
@@ -187,7 +192,7 @@
             <div class="d-flex flex-row align-items-center mb-4 border border-3 border-primary p-2 rounded-3">
                 <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                 <div class="form-outline flex-fill mb-0 form-floating">
-                    <input type="password" class="form-control" th:field="*{confirmPassword}" required />
+                    <input type="password" class="form-control" th:field="*{confirmPassword}" required/>
                     <label class="form-label">Confirm New Password</label>
                 </div>
             </div>
@@ -199,29 +204,6 @@
             </div>
         </div>
     </form>
-</div>
-<div id="editarticle" class="card text-center d-none popupcard">
-    <div class="card-header">
-        <h3>
-            Edit Article Name
-        </h3>
-    </div>
-<!--    <form th:action="@{/editArticle}" th:object="${article}" method="post">-->
-<!--        <div class="card-body">-->
-<!--            <div class="d-flex flex-row align-items-center mb-4 border border-3 border-primary p-2 rounded-3">-->
-<!--                <i class="fas fa-user fa-lg me-3 fa-fw"></i>-->
-<!--                <div class="form-outline flex-fill mb-0 form-floating">-->
-<!--                    <input id="title" type="text" class="form-control" th:field="*{title}" />-->
-<!--                    <label class="form-label" for="title">Title</label>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <input id="hiddenid" type="hidden" th:field="*{id}">-->
-<!--        </div>-->
-<!--        <div class="card-footer text-body-secondary">-->
-<!--            <button id="cancel-edit-article" class="btn btn-outline-danger" type="reset">Cancel</button>-->
-<!--            <button class="btn btn-outline-success" type="submit">Edit</button>-->
-<!--        </div>-->
-<!--    </form>-->
 </div>
 <script>
     // JavaScript
@@ -245,6 +227,7 @@
             coverDiv.classList.add('d-none');
         });
     }
+
     const buttons = document.querySelectorAll('.rounded-pill.btn-outline-primary');
 
     for (const button of buttons) {
@@ -263,8 +246,7 @@
         if (topic != null) {
             document.querySelector('#deletingTopic').value = topic.value;
             form.submit();
-        }
-        else {
+        } else {
             flashToastNotification('Select a interest before pressing delete!')
             return;
         }
@@ -302,38 +284,7 @@
         flashToastNotification(document.getElementById('flashes').innerText)
 
     }
-    const formProf = document.querySelector('#editprofile form');
 
-    // Add an event listener to the form submit event.
-    formProf.addEventListener('submit', function (event) {
-        // Prevent the default form submission.
-        event.preventDefault();
-
-        // Get the form data.
-        const formData = new FormData(formProf);
-
-        // Send the form data to the server using a POST request.
-        fetch('/editProfile', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                // If the form is valid, redirect the user to the success page.
-                if (data.valid) {
-                    window.location.href = data.path;
-                } else {
-                    // If the form is invalid, display the validation errors.
-                    for (const field in data.errors) {
-                        const inputField = document.querySelector(`#editprofile form input[name="${field}"]`);
-                        const feedbackElement = inputField.nextElementSibling;
-
-                        feedbackElement.textContent = data.errors[field];
-                        inputField.classList.add('is-invalid');
-                    }
-                }
-            });
-    });
 </script>
 </body>
 <footer class="text-center">

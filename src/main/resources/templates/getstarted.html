@@ -7,25 +7,26 @@
     <title>News App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/97eca8769e.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../../resources/css/other.css">
+    <link rel="stylesheet" href="../../resources/static/css/other.css" th:href="@{/css/other.css}">
 </head>
 
-<body style="background-image: url('../static/images/1000_F_300852306_pBgkn3EmALrtLLTSwCACu1yjIdjXy99d.jpg');">
+<body th:style="'background-image: url('+@{/images/1000_F_300852306_pBgkn3EmALrtLLTSwCACu1yjIdjXy99d.jpg}+');'">
 <nav class="navbar navbar-light bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
             <svg xmlns="http://www.w3.org/2000/svg" height="2em"
-                 viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                 viewBox="0 0 512 512">
+                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                 <style>
                     svg {
                         fill: #f8f9fa
                     }
                 </style>
                 <path
-                        d="M168 80c-13.3 0-24 10.7-24 24V408c0 8.4-1.4 16.5-4.1 24H440c13.3 0 24-10.7 24-24V104c0-13.3-10.7-24-24-24H168zM72 480c-39.8 0-72-32.2-72-72V112C0 98.7 10.7 88 24 88s24 10.7 24 24V408c0 13.3 10.7 24 24 24s24-10.7 24-24V104c0-39.8 32.2-72 72-72H440c39.8 0 72 32.2 72 72V408c0 39.8-32.2 72-72 72H72zM176 136c0-13.3 10.7-24 24-24h96c13.3 0 24 10.7 24 24v80c0 13.3-10.7 24-24 24H200c-13.3 0-24-10.7-24-24V136zm200-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zM200 272H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24z" />
+                        d="M168 80c-13.3 0-24 10.7-24 24V408c0 8.4-1.4 16.5-4.1 24H440c13.3 0 24-10.7 24-24V104c0-13.3-10.7-24-24-24H168zM72 480c-39.8 0-72-32.2-72-72V112C0 98.7 10.7 88 24 88s24 10.7 24 24V408c0 13.3 10.7 24 24 24s24-10.7 24-24V104c0-39.8 32.2-72 72-72H440c39.8 0 72 32.2 72 72V408c0 39.8-32.2 72-72 72H72zM176 136c0-13.3 10.7-24 24-24h96c13.3 0 24 10.7 24 24v80c0 13.3-10.7 24-24 24H200c-13.3 0-24-10.7-24-24V136zm200-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zM200 272H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/>
             </svg>
         </a>
         <h1 class="text-center text-light">
@@ -34,14 +35,15 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-            <img class="profile-pic" src="/resources/UPLOADED_FOLDER/defaultprofilepic.jpg" alt="">
+            <img class="profile-pic" src="../../resources/static/images/defaultprofilepic.jpg"
+                 th:src="@{/images/defaultprofilepic.jpg}" alt="">
         </button>
         <div class="collapse navbar-collapse text-light" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-                <li class="nav-item text-center" th:if="${user == null}">
-                    <a class="nav-link text-light" th:href="@{/profile/${user.id}}">Profile</a>
+                <li class="nav-item text-center" th:if="${user.getId() != null}">
+                    <a class="nav-link text-light" th:href="@{'/profile/'+${user.id}}">Profile</a>
                 </li>
-                <li class="nav-item text-center" th:unless="${user == null}">
+                <li class="nav-item text-center" th:unless="${user.getId() != null}">
                     <a class="nav-link text-light" th:href="@{/dashboard}">Dashboard</a>
                 </li>
                 <li>
@@ -54,165 +56,168 @@
         </div>
     </div>
 </nav>
-        <div class="container h-100 my-3">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-lg-12 col-xl-11">
-                    <div class="card text-black shadow-lg" style="border-radius: 25px;">
-                        <div class="card-body p-md-5">
-                            <div class="row justify-content-center">
-                                <div class="my-1 col-md-10 col-lg-6 col-xl-5 order-1 order-lg-1 pt-3">
-                                    <div class="mx-1 mx-md-4 text-center">
-                                        <h1 class="text-primary">One Last Thing ...</h1>
-                                        <h3 class="text-start">
-                                            Before you get started we need to now what your interests are, so we can serve you
-                                            the headlines you'll want to hear about
-                                        </h3>
-                                        <div class="m-auto p-3" style="max-width: 540px;">
-                                            <div class="input-group">
-                                                <div class="form-outline border border-2 border-primary py-2">
-                                                    <input id="searchbar" type="text" class="form-control" />
-                                                    <label class="form-label my-2">Search</label>
-                                                </div>
-                                                <button type="button" onclick="addInterest()" class="btn btn-primary">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
-                                            </div>
+<div class="container h-100 my-3">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-12 col-xl-11">
+            <div class="card text-black shadow-lg" style="border-radius: 25px;">
+                <div class="card-body p-md-5">
+                    <div class="row justify-content-center">
+                        <div class="my-1 col-md-10 col-lg-6 col-xl-5 order-1 order-lg-1 pt-3">
+                            <div class="mx-1 mx-md-4 text-center">
+                                <h1 class="text-primary">One Last Thing ...</h1>
+                                <h3 class="text-start">
+                                    Before you get started we need to now what your interests are, so we can serve you
+                                    the headlines you'll want to hear about
+                                </h3>
+                                <div class="m-auto p-3" style="max-width: 540px;">
+                                    <div class="input-group">
+                                        <div class="form-outline border border-2 border-primary py-2">
+                                            <input id="searchbar" type="text" class="form-control"/>
+                                            <label class="form-label my-2">Search</label>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="my-1 col-md-10 col-lg-6 col-xl-7 p-0 order-2 order-lg-2">
-                                    <h3>Choose at least 3 topics your interested in</h3>
-                                    <div id="alltopic" class="row row-cols-3 scrollbar overflow-auto mx-1"
-                                         style="max-height: 300px;">
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Google
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Tesla
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Apple
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Microsoft
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Yotube
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Amazon
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Linux
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Gaming
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Football
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Euro2024
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            iOS
-                                        </button>
-                                        <button class="my-2 rounded-pill btn-outline-primary"
-                                                onclick=toggleActiveClassOnButtonClick(this)>
-                                            Android
+                                        <button type="button" onclick="addInterest()" class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
                                         </button>
                                     </div>
-
-                                    <form th:action="@{/setInterests}" th:method="post" th:object="${interests}">
-                                        <input type="hidden" th:field="*{interests}" id="hidden"/>
-                                        <button type="submit" onclick="setInterests()" class="btn btn-success my-2 float-end">Continue</button>
-                                    </form>
                                 </div>
                             </div>
+                        </div>
+                        <div class="my-1 col-md-10 col-lg-6 col-xl-7 p-0 order-2 order-lg-2">
+                            <h3>Choose at least 3 topics your interested in</h3>
+                            <div id="alltopic" class="row row-cols-3 scrollbar overflow-auto mx-1"
+                                 style="max-height: 300px;">
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Google
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Tesla
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Apple
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Microsoft
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Yotube
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Amazon
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Linux
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Gaming
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Football
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Euro2024
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    iOS
+                                </button>
+                                <button class="my-2 rounded-pill btn-outline-primary"
+                                        onclick=toggleActiveClassOnButtonClick(this)>
+                                    Android
+                                </button>
+                            </div>
+
+                            <form th:action="@{/setInterests}" th:method="post" th:object="${interests}">
+                                <input type="hidden" th:field="*{interests}" id="hidden"/>
+                                <button type="submit" onclick="setInterests()" class="btn btn-success my-2 float-end">
+                                    Continue
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script>
-            function addInterest() {
-                inputElement = document.querySelector('#searchbar')
-                divElement = document.getElementById('alltopic')
-                const word = inputElement.value;
-                const newElement = document.createElement('button');
-                newElement.classList.add('rounded-pill')
-                newElement.classList.add('btn-outline-primary')
-                newElement.classList.add('active')
-                newElement.classList.add('my-2')
-                newElement.setAttribute = ("onclick", "toggleActiveClassOnButtonClick(this)")
-                newElement.textContent = word;
-                divElement.appendChild(newElement);
-                inputElement.value = ""
-                divElement.scrollTop = divElement.scrollHeight;
+    </div>
+</div>
+<script>
+    function addInterest() {
+        inputElement = document.querySelector('#searchbar')
+        divElement = document.getElementById('alltopic')
+        const word = inputElement.value;
+        const newElement = document.createElement('button');
+        newElement.classList.add('rounded-pill')
+        newElement.classList.add('btn-outline-primary')
+        newElement.classList.add('active')
+        newElement.classList.add('my-2')
+        newElement.setAttribute = ("onclick", "toggleActiveClassOnButtonClick(this)")
+        newElement.textContent = word;
+        divElement.appendChild(newElement);
+        inputElement.value = ""
+        divElement.scrollTop = divElement.scrollHeight;
+    }
+
+    function toggleActiveClassOnButtonClick(buttonElement) {
+        if (buttonElement.classList.contains('active')) {
+            buttonElement.classList.remove('active')
+        } else {
+            buttonElement.classList.add('active')
+        }
+    }
+
+    function setInterests() {
+        const allSelected = document.querySelectorAll('#alltopic .active')
+        if (allSelected.length < 3) {
+            flashToastNotification('You need to choose at least 3 to continue!')
+            return
+        } else {
+            console.log(allSelected);
+            var all = []
+            for (const Node of allSelected) {
+                all.push(Node.innerText)
             }
-            function toggleActiveClassOnButtonClick(buttonElement) {
-                if (buttonElement.classList.contains('active')) {
-                    buttonElement.classList.remove('active')
-                }
-                else {
-                    buttonElement.classList.add('active')
-                }
-            }
-            function setInterests() {
-                const allSelected = document.querySelectorAll('#alltopic .active')
-                if (allSelected.length < 3) {
-                    flashToastNotification('You need to choose at least 3 to continue!')
-                    return
-                }
-                else {
-                    console.log(allSelected);
-                    var all = []
-                    for (const Node of allSelected){
-                        all.push(Node.innerText)
-                    }
-                    document.querySelector('#hidden').value=all
-                    console.log(document.querySelector('#hidden').value)
-                }
-            }
-            function flashToastNotification(message) {
-                console.log(message);
-                // Create a toast notification element.
-                const toastNotificationElement = document.createElement('div');
-                toastNotificationElement.classList.add('toast-notification');
-                toastNotificationElement.classList.add('text-light')
-                toastNotificationElement.classList.add('text-center')
+            document.querySelector('#hidden').value = all
+            console.log(document.querySelector('#hidden').value)
+        }
+    }
 
-                // Set the toast notification message.
-                toastNotificationElement.textContent = message;
+    function flashToastNotification(message) {
+        console.log(message);
+        // Create a toast notification element.
+        const toastNotificationElement = document.createElement('div');
+        toastNotificationElement.classList.add('toast-notification');
+        toastNotificationElement.classList.add('text-light')
+        toastNotificationElement.classList.add('text-center')
 
-                // Add the toast notification element to the document body.
-                document.body.appendChild(toastNotificationElement);
+        // Set the toast notification message.
+        toastNotificationElement.textContent = message;
 
-                // Fade in the toast notification element.
-                toastNotificationElement.classList.add('fade-in');
+        // Add the toast notification element to the document body.
+        document.body.appendChild(toastNotificationElement);
 
-                // Remove the toast notification element after 3 seconds.
-                setTimeout(() => {
-                    toastNotificationElement.classList.remove('fade-in');
-                    toastNotificationElement.classList.add('fade-out');
+        // Fade in the toast notification element.
+        toastNotificationElement.classList.add('fade-in');
 
-                    setTimeout(() => {
-                        document.body.removeChild(toastNotificationElement);
-                    }, 500);
-                }, 3000);
-            }
-        </script>
+        // Remove the toast notification element after 3 seconds.
+        setTimeout(() => {
+            toastNotificationElement.classList.remove('fade-in');
+            toastNotificationElement.classList.add('fade-out');
+
+            setTimeout(() => {
+                document.body.removeChild(toastNotificationElement);
+            }, 500);
+        }, 3000);
+    }
+</script>
 </body>
 <footer class="text-center">
     <!-- Grid container -->

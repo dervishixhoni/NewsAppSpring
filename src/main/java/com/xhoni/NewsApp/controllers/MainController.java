@@ -5,6 +5,7 @@ import com.xhoni.NewsApp.services.ArticleService;
 import com.xhoni.NewsApp.services.InterestService;
 import com.xhoni.NewsApp.services.UserService;
 import com.xhoni.NewsApp.services.env;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.json.JSONArray;
@@ -159,9 +160,11 @@ public class MainController {
                 filteredArticles.put(article);
             }
         }
+        model.addAttribute("newArticle", new Article());
         model.addAttribute("articles", filteredArticles);
         model.addAttribute("user", userService.findUserId(userId));
         model.addAttribute("keywords", interests);
+        model.addAttribute("savedArticlesObject", articleService.getByUser(userService.findUserId(userId)));
         model.addAttribute("savedArticles", articleService.getArticleUrls(articleService.getByUser(userService.findUserId(userId))));
         return "dashboard";
     }
@@ -249,18 +252,15 @@ public class MainController {
     }
 
     @PostMapping("/unsaveArticle")
-    public String deleteArticle(@ModelAttribute("article") Article article, HttpSession session, Model model) {
+    public String deleteArticle(@ModelAttribute("article") Article article, HttpSession session, Model model, HttpServletRequest request){
         if (session.getAttribute("userId") == null) {
             return "redirect:/";
         }
         Long userId = (Long) session.getAttribute("userId");
         User user = userService.findUserId(userId);
         Article deleteArticle = articleService.getArticleById(article.getId());
-        if (!Objects.equals(deleteArticle.getAddedArticle().getId(), user.getId())) {
-            return "redirect:/home";
-        }
         articleService.deletearticle(deleteArticle);
-        return "redirect:/home";
+        return "redirect:"+ request.getHeader("Referer");
     }
 
     @PostMapping("/editArticle")

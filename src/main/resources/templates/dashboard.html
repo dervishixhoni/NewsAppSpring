@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/97eca8769e.js" crossorigin="anonymous"></script>
@@ -14,29 +14,30 @@
 </head>
 
 <body th:style="'background-image: url('+@{/images/1000_F_300852306_pBgkn3EmALrtLLTSwCACu1yjIdjXy99d.jpg}+');'">
-<nav class="navbar navbar-light bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">
-            <svg xmlns="http://www.w3.org/2000/svg" height="2em"
-                 viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                <style>
-                    svg {
-                        fill: #f8f9fa
-                    }
-                </style>
-                <path
+    <nav class="navbar navbar-light bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512">
+                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <style>
+                        svg {
+                            fill: #f8f9fa
+                        }
+                    </style>
+                    <path
                         d="M168 80c-13.3 0-24 10.7-24 24V408c0 8.4-1.4 16.5-4.1 24H440c13.3 0 24-10.7 24-24V104c0-13.3-10.7-24-24-24H168zM72 480c-39.8 0-72-32.2-72-72V112C0 98.7 10.7 88 24 88s24 10.7 24 24V408c0 13.3 10.7 24 24 24s24-10.7 24-24V104c0-39.8 32.2-72 72-72H440c39.8 0 72 32.2 72 72V408c0 39.8-32.2 72-72 72H72zM176 136c0-13.3 10.7-24 24-24h96c13.3 0 24 10.7 24 24v80c0 13.3-10.7 24-24 24H200c-13.3 0-24-10.7-24-24V136zm200-24h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80h32c13.3 0 24 10.7 24 24s-10.7 24-24 24H376c-13.3 0-24-10.7-24-24s10.7-24 24-24zM200 272H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24zm0 80H408c13.3 0 24 10.7 24 24s-10.7 24-24 24H200c-13.3 0-24-10.7-24-24s10.7-24 24-24z" />
-            </svg>
-        </a>
-        <h1 class="text-center text-light">
-            News App
-        </h1>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                </svg>
+            </a>
+            <h1 class="text-center text-light">
+                News App
+            </h1>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-            <img class="profile-pic" src="../../resources/static/images/defaultprofilepic.jpg" th:src="@{/images/defaultprofilepic.jpg}" alt="">
-        </button>
-        <div class="collapse navbar-collapse text-light" id="navbarSupportedContent">
+                <img class="profile-pic" src="../../resources/static/images/defaultprofilepic.jpg"
+                    th:src="@{/images/defaultprofilepic.jpg}" alt="">
+            </button>
+            <div class="collapse navbar-collapse text-light" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
                     <li class="nav-item text-center" th:if="${user.getId() != null}">
                         <a class="nav-link text-light" th:href="@{'/profile/'+${user.id}}">Profile</a>
@@ -51,188 +52,189 @@
                         <a class="nav-link text-light" th:href="@{/logout}">Log Out</a>
                     </li>
                 </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="m-auto p-3" style="max-width: 540px;">
+        <div class="input-group bg-light">
+            <div class="form-outline border border-2 border-primary py-2">
+                <input id="searchbar" type="text" class="form-control" />
+                <label class="form-label my-2">Search</label>
+            </div>
+            <button type="button" onclick="getNews('search')" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
         </div>
     </div>
-</nav>
-        <div class="m-auto p-3" style="max-width: 540px;">
-            <div class="input-group bg-light">
-                <div class="form-outline border border-2 border-primary py-2">
-                    <input id="searchbar" type="text" class="form-control" />
-                    <label class="form-label my-2">Search</label>
-                </div>
-                <button type="button" onclick="getNews('search')" class="btn btn-primary">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-        <div id="top-bar" class="scrollbar scrollmenu m-auto py-2 my-3 justify-content-center" style="max-width: 540px;">
-                <button th:each="keyword : ${keywords}" onclick="getNews(this)" class="btn btn-outline-primary mx-1 rounded-pill bg-light"
-                        type="button" th:text="${keyword.getKey_Word()}"></button>
-        </div>
-        <div id="results">
-            <div th:each="article : ${articles}">
-                <div class="d-flex justify-content-center">
-                    <div class="card mb-3 mx-3 my-3 shadow-lg" style="max-width: 540px;">
-                        <div class="row no-gutters">
-                            <div class="col-md-5 d-flex align-items-center justify-content-center">
-                                <img th:src="${article.get('urlToImage')}" class="card-img" alt="Article's image">
-                            </div>
-                            <div class="col-md-7 p-0">
-                                <div class="card-body p-3">
-                                    <h5 class="card-title" th:text="${article.get('title')}"></h5>
-                                    <p class="card-text" th:text="${article.get('description')}"></p>
-                                    <p class="card-text"><small class="text-muted" th:text="${article.get('publishedAt')}"></small></p>
-                                    <div class="d-flex justify-content-evenly w-100">
-                                        <a th:href="${article.get('url')}" target="_blank" class="btn btn-primary">Read The Full Story</a>
-                                            <div th:if="${savedArticles.contains(article.get('url'))}">
-                                                <form th:action="@{/unsaveArticle}" method="post">
-                                                    <input type="hidden" name="title" th:value="${article.get('title')}">
-                                                    <input type="hidden" name="url" th:value="${article.get('url')}">
-                                                    <input type="submit" class="btn btn-success" value="Unsave">
-                                                </form>
-                                            </div>
-                                            <div th:unless="${savedArticles.contains(article.get('url'))}">
-                                                <form th:action="@{/saveArticle}" method="post">
-                                                    <input type="hidden" name="title" th:value="${article.get('title')}">
-                                                    <input type="hidden" name="url" th:value="${article.get('url')}">
-                                                    <input type="submit" class="btn btn-outline-success" value="Save">
-                                                </form>
-                                            </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script th:inline="javascript">
-            var input = document.getElementById('searchbar')
-            input.addEventListener("keydown",function(e){
-                if (e.keyCode === 13) {
-                    getNews('search')
-                }
-            })
-            async function getNews(e) {
-                const buttons = document.querySelectorAll(".btn.btn-outline-primary.mx-1.rounded-pill");
-                if (e == 'search') {
-                    query = document.getElementById('searchbar').value;
-                    document.getElementById('searchbar').value=''
-                }
-                else {
-
-                    const buttons = document.querySelectorAll(".btn.btn-outline-primary.mx-1.rounded-pill");
-
-                    buttons.forEach(button => {
-                        if (button.classList.contains('active')) {
-                            button.classList.remove('active');
-                        }
-                    });
-                    e.classList.add('active');
-                    query = e.innerText
-                }
-
-                var url = "https://newsapi.org/v2/everything?q="+query+"&language=en&apiKey=bf1cb8dc1df74505a310b9dc5301942e";
-                const response = await fetch(url);
-                // Check the response status code.
-                if (response.status !== 200) {
-                    throw new Error("Failed to query News API: " + response.status);
-                }
-
-                // Parse the JSON response.
-                const data = await response.json();
-
-                // Get the articles.
-                const articles = data.articles;
-                var savedArt = /*[[${savedArticles}]]*/ [];
-
-                // Display the articles on the page.
-                const resultsContainer = document.querySelector("#results");
-                resultsContainer.innerHTML = "";
-                // Display the articles once the response has been received.
-                for (const article of articles) {
-                    const articleElement = document.createElement("article");
-                    if (article['title'] != '[Removed]' && article['urlToImage'] != null) {
-
-                        if (savedArt.includes(article['url'])) {
-                            articleElement.innerHTML =
-                                `<div class="d-flex justify-content-center">
-                        <div class="card mb-3 mx-3 my-3 shadow-lg" style="max-width: 540px;">
-                            <div class="row no-gutters">
-                                <div class="col-md-5 d-flex align-items-center justify-content-center">
-                                    <img src="${article['urlToImage']}" class="card-img" alt="Article's image">
-                                </div>
-                                <div class="col-md-7 p-0">
-                                    <div class="card-body p-3">
-                                        <h5 class="card-title">${article['title']}</h5>
-                                        <p class="card-text">${article['description']}</p>
-                                        <p class="card-text"><small class="text-muted">${article['publishedAt']}</small></p>
-                                        <div class="d-flex justify-content-evenly w-100">
-                                            <a href="${article['url']}" target="_blank" class="btn btn-primary">Read The Full Story</a>
-                                            <form action="/unsaveArticle" method="post">
-                                                <input type="hidden" name="title" value="${article['title']}">
-                                                <input type="hidden" name="url" value="${article['url']}">
-                                                <input type="submit" class="btn btn-success" value="Unsave">
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-                        }
-                        else {
-                            articleElement.innerHTML = `
+    <div id="top-bar" class="scrollbar scrollmenu m-auto py-2 my-3 justify-content-center" style="max-width: 540px;">
+        <button th:each="keyword : ${keywords}" onclick="getNews(this)"
+            class="btn btn-outline-primary mx-1 rounded-pill bg-light" type="button"
+            th:text="${keyword.getKey_Word()}"></button>
+    </div>
+    <div id="results">
+        <div th:each="article : ${articles}">
             <div class="d-flex justify-content-center">
                 <div class="card mb-3 mx-3 my-3 shadow-lg" style="max-width: 540px;">
                     <div class="row no-gutters">
-                        <div class="col-md-5 d-flex align-items-center justify-content-center   ">
-                            <img src="${article['urlToImage']}" class="card-img" alt="Article's image">
+                        <div class="col-md-5 d-flex align-items-center justify-content-center">
+                            <img th:src="${article.get('urlToImage')}" class="card-img" alt="Article's image">
                         </div>
                         <div class="col-md-7 p-0">
                             <div class="card-body p-3">
-                                <h5 class="card-title">${article['title']}</h5>
-                                <p class="card-text">${article['description']}</p>
-                                <p class="card-text"><small class="text-muted">${article['publishedAt']}</small></p>
+                                <h5 class="card-title" th:text="${article.get('title')}"></h5>
+                                <p class="card-text" th:text="${article.get('description')}"></p>
+                                <p class="card-text"><small class="text-muted" th:text="${article.get('publishedAt')}"></small></p>
                                 <div class="d-flex justify-content-evenly w-100">
-                                    <a href="${article['url']}" target="_blank" class="btn btn-primary">Read The Full Story</a>
-                                    <form action="/saveArticle" method="post">
-                                        <input type="hidden" name="title" value="${article['title']}">
-                                        <input type="hidden" name="url" value="${article['url']}">
-                                        <input type="submit" class="btn btn-outline-success" value="Save">
-                                    </form>
+                                    <a th:href="${article.get('url')}" target="_blank" class="btn btn-primary">Read The Full Story</a>
+                                    <div th:if="${savedArticles.contains(article.get('url'))}">
+                                        <form id="saved" th:action="@{/unsaveArticle}" th:object="${newArticle}"
+                                            th:method="post">
+                                            <input type="hidden" id="id" name="id"
+                                                th:value="${savedArticlesObject.get(savedArticles.indexOf(article.get('url'))).id}">
+                                            <input type="submit" class="btn btn-success" value="Unsave">
+                                        </form>
+                                    </div>
+                                    <div th:unless="${savedArticles.contains(article.get('url'))}">
+                                        <form th:action="@{/saveArticle}" method="post">
+                                            <input type="hidden" name="title" th:value="${article.get('title')}">
+                                            <input type="hidden" name="url" th:value="${article.get('url')}">
+                                            <input type="submit" class="btn btn-outline-success" value="Save">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>`;
-                        }
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        var input = document.getElementById('searchbar')
+        input.addEventListener("keydown", function (e) {
+            if (e.keyCode === 13) {
+                getNews('search')
+            }
+        })
 
-                        resultsContainer.appendChild(articleElement);
+        async function getNews(e) {
+            const buttons = document.querySelectorAll(".btn.btn-outline-primary.mx-1.rounded-pill");
+            if (e == 'search') {
+                query = document.getElementById('searchbar').value;
+                document.getElementById('searchbar').value = ''
+            } else {
+
+                const buttons = document.querySelectorAll(".btn.btn-outline-primary.mx-1.rounded-pill");
+
+                buttons.forEach(button => {
+                    if (button.classList.contains('active')) {
+                        button.classList.remove('active');
                     }
+                });
+                e.classList.add('active');
+                query = e.innerText
+            }
+
+            var url = "https://newsapi.org/v2/everything?q=" + query + "&language=en&apiKey=bf1cb8dc1df74505a310b9dc5301942e";
+            const response = await fetch(url);
+            // Check the response status code.
+            if (response.status !== 200) {
+                throw new Error("Failed to query News API: " + response.status);
+            }
+            // Parse the JSON response.
+            const data = await response.json();
+
+            // Get the articles.
+            const articles = data.articles;
+            var savedArt = /*[[${savedArticles}]]*/[];
+
+            // Display the articles on the page.
+            const resultsContainer = document.querySelector("#results");
+            resultsContainer.innerHTML = "";
+            // Display the articles once the response has been received.
+            for (const article of articles) {
+                const articleElement = document.createElement("article");
+                if (article['title'] != '[Removed]' && article['urlToImage'] != null) {
+
+                    if (savedArt.includes(article['url'])) {
+                        articleElement.innerHTML =
+                            `<div class="d-flex justify-content-center">
+                                <div class="card mb-3 mx-3 my-3 shadow-lg" style="max-width: 540px;">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-5 d-flex align-items-center justify-content-center">
+                                            <img src="${article['urlToImage']}" class="card-img" alt="Article's image">
+                                        </div>
+                                        <div class="col-md-7 p-0">
+                                            <div class="card-body p-3">
+                                                <h5 class="card-title">${article['title']}</h5>
+                                                <p class="card-text">${article['description']}</p>
+                                                <p class="card-text"><small class="text-muted">${article['publishedAt']}</small></p>
+                                                <div class="d-flex justify-content-evenly w-100">
+                                                    <a href="${article['url']}" target="_blank" class="btn btn-primary">Read The Full Story</a>
+                                                    <form action="/unsaveArticle" method="post">
+                                                        <input type="hidden" name="title" value="${article['title']}">
+                                                        <input type="hidden" name="url" value="${article['url']}">
+                                                        <input type="submit" class="btn btn-success" value="Unsave">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    } else {
+                        articleElement.innerHTML = `
+                            <div class="d-flex justify-content-center">
+                                <div class="card mb-3 mx-3 my-3 shadow-lg" style="max-width: 540px;">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-5 d-flex align-items-center justify-content-center   ">
+                                            <img src="${article['urlToImage']}" class="card-img" alt="Article's image">
+                                        </div>
+                                        <div class="col-md-7 p-0">
+                                            <div class="card-body p-3">
+                                                <h5 class="card-title">${article['title']}</h5>
+                                                <p class="card-text">${article['description']}</p>
+                                                <p class="card-text"><small class="text-muted">${article['publishedAt']}</small></p>
+                                                <div class="d-flex justify-content-evenly w-100">
+                                                    <a href="${article['url']}" target="_blank" class="btn btn-primary">Read The Full Story</a>
+                                                    <form action="/saveArticle" method="post">
+                                                        <input type="hidden" name="title" value="${article['title']}">
+                                                        <input type="hidden" name="url" value="${article['url']}">
+                                                        <input type="submit" class="btn btn-outline-success" value="Save">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
+
+                    resultsContainer.appendChild(articleElement);
                 }
             }
-        </script>
-        </body>
-        <footer class="text-center">
-            <!-- Grid container -->
-            <div class="container p-4">
-                <!-- Linkedin -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #0082ca;"
-                   href="https://www.linkedin.com/in/xhoni-d%C3%ABrvishi-1a5844293/" role="button"><i
-                        class="fab fa-linkedin-in"></i></a>
-                <!-- Github -->
-                <a class="btn text-white btn-floating m-1" style="background-color: #333333;"
-                   href="https://github.com/dervishixhoni" role="button"><i class="fab fa-github"></i></a>
-            </div>
-            <!-- Grid container -->
+        }
+    </script>
+</body>
+<footer class="text-center">
+    <!-- Grid container -->
+    <div class="container p-4">
+        <!-- Linkedin -->
+        <a class="btn text-white btn-floating m-1" style="background-color: #0082ca;"
+            href="https://www.linkedin.com/in/xhoni-d%C3%ABrvishi-1a5844293/" role="button"><i
+                class="fab fa-linkedin-in"></i></a>
+        <!-- Github -->
+        <a class="btn text-white btn-floating m-1" style="background-color: #333333;"
+            href="https://github.com/dervishixhoni" role="button"><i class="fab fa-github"></i></a>
+    </div>
+    <!-- Grid container -->
 
-            <!-- Copyright -->
-            <div class="text-center p-3 bg-primary text-light">
-                © 2023 Copyright:
-                <a class="text-white" href="https://github.com/dervishixhoni/SoloProjectNewsApp"> News App</a>
-            </div>
-            <!-- Copyright -->
-        </footer>
-        </html>
+    <!-- Copyright -->
+    <div class="text-center p-3 bg-primary text-light">
+        © 2023 Copyright:
+        <a class="text-white" href="https://github.com/dervishixhoni/SoloProjectNewsApp"> News App</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+
+</html>
