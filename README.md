@@ -27,7 +27,7 @@ Before getting started, ensure you have the following prerequisites:
 Follow these steps to use the application:
 
 1. Clone the repository to your local machine.
-2. Replace `YOUR_API_KEY` in `application.properties` with your NewsAPI API Key.
+2. Replace `YOUR_API_KEY` in `env` class within the services package with your NewsAPI API Key.
 3. Open the project in your preferred IDE.
 4. Build and run the application.
 5. Access the web interface via your browser.
