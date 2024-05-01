@@ -1,4 +1,4 @@
-# Solo Project News App
+# News App Spring
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/dervishixhoni/NewsAppSpring)
 ![GitHub contributors](https://img.shields.io/github/contributors/dervishixhoni/NewsAppSpring)
