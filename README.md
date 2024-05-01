@@ -1,9 +1,9 @@
 # Solo Project News App
 
-![GitHub repo size](https://img.shields.io/github/repo-size/dervishixhoni/soloprojectnewsapp)
-![GitHub contributors](https://img.shields.io/github/contributors/dervishixhoni/soloprojectnewsapp)
-![GitHub stars](https://img.shields.io/github/stars/dervishixhoni/soloprojectnewsapp?style=social)
-![GitHub forks](https://img.shields.io/github/forks/dervishixhoni/soloprojectnewsapp?style=social)
+![GitHub repo size](https://img.shields.io/github/repo-size/dervishixhoni/NewsAppSpring)
+![GitHub contributors](https://img.shields.io/github/contributors/dervishixhoni/NewsAppSpring)
+![GitHub stars](https://img.shields.io/github/stars/dervishixhoni/NewsAppSpring?style=social)
+![GitHub forks](https://img.shields.io/github/forks/dervishixhoni/NewsAppSpring?style=social)
 
 ## Overview
 This is a web-based News App developed using Java with the Spring framework and Thymeleaf templating engine. It utilizes the NewsAPI to provide users with up-to-date news articles from various sources. The application allows users to search for news articles by keywords, view headlines, and read full articles. This project serves as an excellent demonstration of building a news aggregator web application using Spring Boot.
