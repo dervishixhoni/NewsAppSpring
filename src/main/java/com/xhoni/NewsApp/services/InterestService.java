@@ -29,6 +29,16 @@ public class InterestService {
         return optional.orElse(null);
 
     }
+    // In ArticleService.java
+
+    public void createInterests(String interests, User user, InterestService interestService) {
+        for (String word : interests.split(",")) {
+            Interest interest = new Interest();
+            interest.setKey_Word(word);
+            interest.setAddedInterest(user);
+            interestService.createInterest(interest);
+        }
+    }
 
 
     public List<Interest> getByUser(User user){

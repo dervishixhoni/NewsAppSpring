@@ -127,37 +127,11 @@ public class MainController {
         if (!userService.findUserId(userId).getIsVerified()) {
             return "redirect:/verifyemail";
         }
+        if (interestService.getByUser(userService.findUserId(userId)).isEmpty()) {
+            return "redirect:/getstarted";
+        }
         ArrayList<Interest> interests = new ArrayList<>(interestService.getByUser(userService.findUserId(userId)));
-        StringBuilder word = new StringBuilder();
-        for (int i = 0; i < interests.size() - 1; i++) {
-            word.append(interests.get(i).getKey_Word());
-            word.append("+OR+");
-        }
-        word.append(interests.get(interests.size() - 1).getKey_Word());
-        String url = "https://newsapi.org/v2/everything?q=" + word + "&apiKey=" + env.API_KEY;
-//        String json = IOUtils.toString(url.getBytes(), "UTF-8");
-//        JSONObject object = new JSONObject(new JSONTokener(json));
-        URL urlObj = new URL(url);
-        HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
-        connection.setRequestMethod("GET");
-        connection.connect();
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-        JSONObject object = new JSONObject(response.toString());
-        JSONArray articles = object.getJSONArray("articles");
-        JSONArray filteredArticles = new JSONArray();
-        for (int i = 0; i < articles.length(); i++) {
-            JSONObject article = articles.getJSONObject(i);
-            if (!article.getString("title").equals("[Removed]") && !article.isNull("urlToImage")) {
-                filteredArticles.put(article);
-            }
-        }
+        JSONArray filteredArticles = articleService.getFilteredArticles(interests);
         model.addAttribute("newArticle", new Article());
         model.addAttribute("articles", filteredArticles);
         model.addAttribute("user", userService.findUserId(userId));
@@ -304,12 +278,7 @@ public class MainController {
         }
         Long userId = (Long) session.getAttribute("userId");
         User user = userService.findUserId(userId);
-        for (String word : interests.split(",")) {
-            Interest interest = new Interest();
-            interest.setKey_Word(word);
-            interest.setAddedInterest(user);
-            interestService.createInterest(interest);
-        }
+        interestService.createInterests(interests, user, interestService);
         return "redirect:/home";
     }
 }
