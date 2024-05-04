@@ -11,10 +11,6 @@ import jakarta.validation.Valid;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,7 +52,8 @@ public class MainController {
                                HttpSession session, Model model) {
         User createUsers = userService.register(user, result);
         if (result.hasErrors()) {
-            return "redirect:/";
+            model.addAttribute("loginUser", new LoginUser());
+            return "index";
         }
         session.setAttribute("userId", createUsers.getId());
         return "redirect:/verifyemail";
@@ -67,7 +64,8 @@ public class MainController {
                         HttpSession session, Model model) {
         User loggedUser = userService.loggin(loginUser, result);
         if (result.hasErrors()) {
-            return "redirect:/";
+            model.addAttribute("user", new User());
+            return "index";
         }
         session.setAttribute("userId", loggedUser.getId());
         return "redirect:/verifyemail";

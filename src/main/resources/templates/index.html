@@ -44,7 +44,7 @@
                                             <div class="form-outline flex-fill mb-0 form-floating">
                                                 <input type="text" class="form-control" th:field="*{firstName}"/>
                                                 <label class="form-label" >First Name</label>
-                                                <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></div>
+                                                <div class="text-capitalize" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger"></div>
                                             </div>
                                         </div>
 
@@ -54,7 +54,7 @@
                                             <div class="form-outline flex-fill mb-0 form-floating">
                                                 <input type="text" class="form-control" th:field="*{lastName}"/>
                                                 <label class="form-label">Last Name</label>
-                                                <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></div>
+                                                <div class="text-capitalize" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger"></div>
                                             </div>
                                         </div>
 
@@ -64,7 +64,7 @@
                                             <div class="form-outline flex-fill mb-0 form-floating">
                                                 <input type="email"  class="form-control" th:field="*{email}"/>
                                                 <label class="form-label" >Email</label>
-                                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+                                                <div class="text-capitalize" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
                                             </div>
                                         </div>
 
@@ -74,7 +74,7 @@
                                             <div class="form-outline flex-fill mb-0 form-floating">
                                                 <input type="password"  class="form-control" th:field="*{password}"/>
                                                 <label class="form-label">Password</label>
-                                                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></div>
+                                                <div class="text-capitalize" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></div>
                                             </div>
                                         </div>
 
@@ -84,7 +84,7 @@
                                             <div class="form-outline flex-fill mb-0 form-floating">
                                                 <input type="password" class="form-control" th:field="*{passwordConfirmation}"/>
                                                 <label class="form-label">Confirm password</label>
-                                                <div th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="text-danger"></div>
+                                                <div class="text-capitalize" th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="text-danger"></div>
                                             </div>
                                         </div>
 
@@ -115,7 +115,7 @@
                                             <div class="form-outline flex-fill mb-0 form-floating">
                                                 <input type="email" id="form3Example3c" class="form-control" th:field="*{email}"/>
                                                 <label class="form-label" for="form3Example3c">Email</label>
-                                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+                                                <div class="text-capitalize" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
                                             </div>
                                         </div>
 
@@ -125,7 +125,7 @@
                                             <div class="form-outline flex-fill mb-0 form-floating">
                                                 <input type="password" id="form3Example4c" class="form-control" th:field="*{password}"/>
                                                 <label class="form-label" for="form3Example4c">Password</label>
-                                                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></div>
+                                                <div class="text-capitalize" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></div>
                                             </div>
                                         </div>
 
